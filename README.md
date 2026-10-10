@@ -33,10 +33,27 @@ metric over accuracy because missed failures are far more costly than false alar
 - **SHAP으로 모델 출력을 원인 분석 가능한 형태로 전환.** 어떤 공정 변수가 고장 위험을
   끌어올렸는지 개별 예측 단위로 분해함.
 
+## 추가: 예측에서 조치로 (2026-10)
+
+재현율 79%였지만 테스트셋 알림 96건 중 41건이 헛알림이었다. 그래서 문제를 "더 정확한 모델"에서
+**"알림을 받은 사람이 무엇을 하는가"**로 다시 정의했다. 자세한 내용은 [action_design/REPORT.md](action_design/REPORT.md).
+
+| 한 일 | 결과 (합성 데이터, 효과 크기는 현장에서 다시 재야 함) |
+|---|---|
+| 온도차·출력(토크×각속도) 같은 물리 변수 추가 | 헛알림 35.3 → 19.0 (10회 분할 평균) |
+| 놓친 고장 분석 | 59%가 공구 마모 고장 → 모델이 아닌 공구 수명 관리로 분리 |
+| 알림 단계·수신자·점검 기록 설계 | 확률 하나로 만든 중간 구간은 93%가 헛알림 → 사람 호출 대신 PM 목록 |
+| 시간축·정비 기록이 있는 Azure PdM 데이터로 확장 | 높은 점수(0.999)는 생성기 흔적으로 판정, 정비 기록을 넣자 센서만(0.29) → 0.92 |
+
 ## 구성
 
 ```
 predictive_maintenance_xgboost_shap.ipynb
+action_design/
+  REPORT.md                 조치 설계 v1.1 보고서
+  ai4i_action_design.py     물리 파생변수 비교 + 조치 정책 시뮬레이션
+  azure_pdm_v11.py          Azure PdM 시간 분할 적용
+  azure_pdm_checks.py       누수·새 설비·기간·시드 점검
 README.md
 ```
 
