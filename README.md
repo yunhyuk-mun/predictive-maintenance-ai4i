@@ -4,6 +4,8 @@
 > class imbalance (3.4% failure rate) and uses SHAP to turn model output into interpretable,
 > root-cause-style signals rather than a black-box score.
 
+> 코드·분석은 Claude Code로 작성했고, 문제 재정의·결정·채택은 작성자가 했다.
+
 **TL;DR (English):** Binary classification (machine failure vs. normal) on the public
 [AI4I 2020 Predictive Maintenance dataset](https://www.kaggle.com/datasets/stephanmatzka/predictive-maintenance-dataset-ai4i-2020)
 (10,000 rows, 3.4% positive rate). SMOTE is applied only to the training split (after the
@@ -19,7 +21,7 @@ metric over accuracy because missed failures are far more costly than false alar
 |---|---|
 | Recall (고장 클래스) | 79% |
 | F1-score (고장 클래스) | 0.67 |
-| 핵심 고장 원인 (SHAP) | Tool wear, Torque |
+| 위험 기여 상위 변수 (SHAP) | Tool wear, Torque |
 
 ## 방법론에서 신경 쓴 것
 
@@ -35,7 +37,7 @@ metric over accuracy because missed failures are far more costly than false alar
 
 ## 추가: 예측에서 조치로 (2026-10)
 
-재현율 79%였지만 테스트셋 알림 96건 중 41건이 헛알림이었다. 그래서 문제를 "더 정확한 모델"에서
+재현율 79%였지만 테스트셋 알림 96건 중 41건이 헛알림이었다(96/41은 재현 코드 실행 기준이라 이 실행의 재현율은 55/68 ≈ 81%). 그래서 문제를 "더 정확한 모델"에서
 **"알림을 받은 사람이 무엇을 하는가"**로 다시 정의했다. 자세한 내용은 [action_design/REPORT.md](action_design/REPORT.md).
 
 | 한 일 | 결과 (합성 데이터, 효과 크기는 현장에서 다시 재야 함) |
@@ -68,4 +70,4 @@ jupyter notebook predictive_maintenance_xgboost_shap.ipynb
 
 데이터셋은 [Kaggle](https://www.kaggle.com/datasets/stephanmatzka/predictive-maintenance-dataset-ai4i-2020)에서
 받아 `ai4i2020.csv`로 두면 그대로 돌아간다. 렌더링된 결과는
-[Kaggle 노트북](https://www.kaggle.com/code/ericwittjr/predictive-maintenance-xgboost-shap-analysis)에서 바로 볼 수 있다.
+[Kaggle 노트북](https://www.kaggle.com/code/ericwittjr/predictive-maintenance-xgboost-shap-analysis)(본인 Kaggle 계정)에서 바로 볼 수 있다.
